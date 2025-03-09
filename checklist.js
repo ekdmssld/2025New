@@ -1,27 +1,35 @@
 function generateCheckList() {
   const nameInput = document.getElementById('nameInput').value;
-  const names = nameInput.split('\n').filter((name) => name.trim() !== '');
-  const checkList = document.getElementById('checkList');
-  checkList.innerHTML = '';
+  const lines = nameInput.split('\n').filter((name) => name.trim() !== '');
+  const checklist = document.getElementById('checklist');
+  const totalCount = document.getElementById('totalCount');
+  checklist.innerHTML = '';
+  let validCount = 0;
 
-  names.forEach((name, index) => {
+  lines.forEach((line, index) => {
+    const [name, studentId] = line.split(/\s+/);
+    if (!name || !studentId) {
+      return;
+    }
+    validCount++;
     const listItem = document.createElement('li');
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.id = 'check_' + index;
-    checkbox.onchange = () => toggleCheckd(listItem);
+    checkbox.onchange = () => toggleChecked(listItem);
 
     const label = document.createElement('label');
     label.htmlFor = 'check_' + index;
-    label.textContent = name;
-    label.style.marginLeft = '8px';
+    label.textContent = `${name} (${studentId})`;
 
     listItem.appendChild(checkbox);
     listItem.appendChild(label);
-    checkList.appendChild(listItem);
+    checklist.appendChild(listItem);
   });
+
+  totalCount.textContent = `총 인원 수 : ${validCount}`;
 }
 
-function toggleCheckd(listItem) {
+function toggleChecked(listItem) {
   listItem.classList.toggle('checked');
 }

@@ -25,3 +25,6 @@ li {
   text-decoration: link-through;
   color: gray;
 }
+label {
+  margin-left: 8px;
+}
